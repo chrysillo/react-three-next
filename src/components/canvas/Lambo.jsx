@@ -1,8 +1,8 @@
 'use client'
 
-import { useGLTF } from '@react-three/drei'
+import { useGLTF, Stage } from '@react-three/drei'
 
-export function Lambo(props) {
+function Model(props) {
   const { color } = props
   const { nodes, materials } = useGLTF('/lambo.glb')
   return (
@@ -61,4 +61,13 @@ export function Lambo(props) {
   )
 }
 
+export function Lambo(props) {
+  return (
+    <>
+      <Stage adjustCamera={false}>
+        <Model {...props} />
+      </Stage>
+    </>
+  )
+}
 useGLTF.preload('/lambo.glb')

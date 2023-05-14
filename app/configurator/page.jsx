@@ -4,7 +4,6 @@ import dynamic from 'next/dynamic'
 import React, { Suspense } from 'react'
 
 const Duck = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Duck), { ssr: false })
-const Dog = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Dog), { ssr: false })
 const Lambo = dynamic(() => import('@/components/canvas/Lambo').then((mod) => mod.Lambo), { ssr: false })
 const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
