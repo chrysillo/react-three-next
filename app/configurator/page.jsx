@@ -24,9 +24,9 @@ const Common = dynamic(() => import('@/components/canvas/View').then((mod) => mo
 
 export default function Page() {
   const [color, setColor] = React.useState('red')
+  const [controlsEnabled, setControlsEnabled] = React.useState('true')
   const someFunction = (color) => {
     setColor(color)
-    console.log('hahah: ', color)
   }
   return (
     <>
@@ -42,19 +42,22 @@ export default function Page() {
       <div className='m-auto grid h-full max-w-7xl grid-cols-6 grid-rows-6'>
         <View
           orbit
-          enableDamping={false}
-          enablePan={false}
-          minPolarAngle={1.5}
-          maxPolarAngle={1.5}
-          enableZoom={false}
-          reverseOrbit={false}
-          zoom={80}
-          minZoom={80}
-          minDistance={15}
+          orbitControls={{
+            enableDamping: false,
+            enablePan: false,
+            minPolarAngle: 1.5,
+            maxPolarAngle: 1.5,
+            enableZoom: false,
+            reverseOrbit: false,
+            zoom: 80,
+            minZoom: 80,
+            minDistance: 15,
+            enabled: controlsEnabled,
+          }}
           className='col-span-5 row-span-4  h-full w-full bg-lime-300'
         >
           <Suspense fallback={null}>
-            <Lambo color={color} />
+            <Lambo color={color} setControlsEnabled={setControlsEnabled} />
             <Common />
           </Suspense>
         </View>

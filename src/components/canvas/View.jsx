@@ -6,6 +6,8 @@ import { Three } from '@/helpers/components/Three'
 
 export const Common = ({ color }) => (
   <Suspense fallback={null}>
+    {color && <color attach='background' args={[color]} />}
+
     {/* <ambientLight intensity={0.5} />
     <pointLight position={[0, 30, 0]} intensity={1} castShadow={true} />
     <pointLight position={[20, 30, 10]} intensity={1} />
@@ -15,17 +17,16 @@ export const Common = ({ color }) => (
   </Suspense>
 )
 
-const View = forwardRef(({ children, orbit, ...props }, ref) => {
+const View = forwardRef(({ children, orbit, orbitControls, ...props }, ref) => {
   const localRef = useRef(null)
   useImperativeHandle(ref, () => localRef.current)
-  console.log(props)
   return (
     <>
       <div ref={localRef} {...props} />
       <Three>
         <ViewImpl track={localRef}>
           {children}
-          {orbit && <OrbitControls {...props} />}
+          {orbit && <OrbitControls {...orbitControls} />}
         </ViewImpl>
       </Three>
     </>

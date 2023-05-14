@@ -1,9 +1,10 @@
 'use client'
 
-import { useGLTF, Stage } from '@react-three/drei'
+import { useGLTF, Stage, Bounds, useBounds, useCursor } from '@react-three/drei'
+import React from 'react'
 
 function Model(props) {
-  const { color } = props
+  const color = props.color
   const { nodes, materials } = useGLTF('/lambo.glb')
   return (
     <group {...props} position={[2.15, 0, 0]} dispose={null}>
@@ -62,12 +63,51 @@ function Model(props) {
 }
 
 export function Lambo(props) {
+  const [hovered, setHovered] = React.useState(false)
+  useCursor(hovered)
   return (
     <>
       <Stage adjustCamera={false}>
-        <Model {...props} />
+        <Bounds clip observe margin={1.5}>
+          <Model color={props.color} />
+          <SelectToZoom setControls={props.setControlsEnabled}>
+            <mesh
+              position={[0, 0, -5]}
+              visible={true}
+              onPointerOver={() => setHovered(true)}
+              onPointerOut={() => setHovered(false)}
+            >
+              <sphereGeometry args={[0.6, 16, 16]} />
+              {/* <meshPhysicalMaterial roughness={0} color={'#1fb2f5'} /> */}
+            </mesh>
+            <mesh position={[0, 0, 5]}>
+              <sphereGeometry args={[1, 64, 64]} />
+            </mesh>
+          </SelectToZoom>
+        </Bounds>
       </Stage>
     </>
   )
 }
-useGLTF.preload('/lambo.glb')
+
+function SelectToZoom({ children, ...props }) {
+  const api = useBounds()
+  return (
+    <group
+      onClick={(e) => {
+        props.setControls(false)
+        console.log(e.delta)
+        return e.stopPropagation(), e.delta <= 2 && api.refresh(e.object).fit()
+      }}
+      onPointerMissed={(e) => {
+        props.setControls(true)
+        console.log('pointer missed')
+        // return e.button === 0 && api.refresh().fit()
+      }}
+    >
+      {children}
+    </group>
+  )
+}
+
+https: useGLTF.preload('/lambo.glb')
