@@ -30,15 +30,6 @@ export default function Page() {
   }
   return (
     <>
-      <div className='mx-auto flex w-full flex-col flex-wrap items-center md:flex-row  lg:w-4/5'>
-        <div
-          className='flex w-full flex-col items-start justify-center p-12 text-center md:w-2/5 md:text-left'
-          style={{ background: color }}
-        >
-          <p className='w-full uppercase'>Next + React Three Fiber</p>
-          <p className='mb-8 text-2xl leading-normal'>this is all {color}</p>
-        </div>
-      </div>
       <div className='m-auto grid h-full max-w-7xl grid-cols-6 grid-rows-6'>
         <View
           orbit
@@ -64,7 +55,7 @@ export default function Page() {
         <div className='col-span-1 row-span-4 flex flex-col gap-5 bg-orange-500 p-2'>
           <Button color='orange' onClick={someFunction} />
           <Button color='lime' onClick={someFunction} />
-          <Button color='purple' onClick={someFunction} />
+          <Button color='black' onClick={someFunction} />
           <Button color='red' onClick={someFunction} />
           <Button color='gray' onClick={someFunction} />
         </div>
@@ -78,14 +69,6 @@ export default function Page() {
           </View>
         </div>
       </div>
-
-      {/* <div className='flex bg-orange-500'>
-        <Button />
-        <Button />
-        <Button />
-        <Button />
-        <Button />
-      </div> */}
     </>
   )
 }

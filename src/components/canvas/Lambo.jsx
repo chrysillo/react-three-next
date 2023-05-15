@@ -102,7 +102,6 @@ function SelectToZoom({ children, ...props }) {
       onPointerMissed={(e) => {
         props.setControls(true)
         console.log('pointer missed')
-        // return e.button === 0 && api.refresh().fit()
       }}
     >
       {children}
