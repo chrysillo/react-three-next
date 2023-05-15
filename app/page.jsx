@@ -5,8 +5,6 @@ import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 
 const Logo = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Logo), { ssr: false })
-const Dog = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Dog), { ssr: false })
-const Duck = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Duck), { ssr: false })
 const TitleText = dynamic(() => import('@/components/canvas/TitleText').then((mod) => mod.TitleText), { ssr: false })
 const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
@@ -28,55 +26,30 @@ const Common = dynamic(() => import('@/components/canvas/View').then((mod) => mo
 export default function Page() {
   return (
     <>
-      <div className='mx-auto flex w-full flex-col flex-wrap items-center md:flex-row  lg:w-4/5'>
-        {/* jumbo */}
-        <div className='flex w-full flex-col items-start justify-center p-12 text-center md:w-2/5 md:text-left'>
-          <p className='w-full uppercase'>Next + React Three Fiber</p>
-          <h1 className='my-4 text-5xl font-bold leading-tight'>Next 3D Starter</h1>
-          <p className='mb-8 text-2xl leading-normal'>A minimalist starter for React, React-three-fiber and Threejs.</p>
-        </div>
-
-        <div className='w-full text-center md:w-3/5'>
-          <View className='flex h-96 w-full flex-col items-center justify-center'>
-            <Suspense fallback={null}>
-              <Logo route='/blob' scale={0.6} position={[0, 0, 0]} />
-              <Common />
-            </Suspense>
-          </View>
-        </div>
+      <div className='relative w-full mb-40'>
+        <View className='relative  h-96  w-full'>
+          <Suspense fallback={null}>
+            <Logo position={[5, 0, -3]} />
+            <TitleText route='/configurator' />
+            <Common />
+          </Suspense>
+        </View>
       </div>
 
-      <div className='mx-auto flex w-full flex-col flex-wrap items-center p-12 md:flex-row  lg:w-4/5'>
-        {/* first row */}
-        <div className='relative h-48 w-full py-6 sm:w-1/2 md:my-12 md:mb-40'>
-          <h2 className='mb-3 text-3xl font-bold leading-none text-gray-800'>Events are propagated</h2>
-          <p className='mb-8 text-gray-600'>Drag, scroll, pinch, and rotate the canvas to explore the 3D scene.</p>
+      <div className='mx-auto flex w-full flex-col flex-wrap   md:flex-row  lg:w-4/5'>
+        {/* jumbo */}
+        <div className='flex w-full flex-col items-start  p-12 md:w-3/6 md:text-left'>
+          <h1 className='my-4 text-5xl font-bold leading-tight'>React Three Fiber</h1>
+          <p className='mb-8 text-2xl leading-normal'>
+            react-three-fiber is a React renderer for threejs. Build your scene declaratively with re-usable,
+            self-contained components that react to state, are readily interactive and can participate in React's
+            ecosystem.
+          </p>
         </div>
-        <div className='relative my-12 h-48 w-full py-6 sm:w-1/2 md:mb-40'>
-          <View orbit className='relative h-full  sm:h-48 sm:w-full'>
-            <Suspense fallback={null}>
-              <Dog scale={2} position={[0, -1.6, 0]} rotation={[0.0, -0.3, 0]} />
-              <Common color={'lightpink'} />
-            </Suspense>
-          </View>
-        </div>
-
-        {/* second row */}
-        <div className='relative my-12 h-48 w-full py-6 sm:w-1/2 md:mb-40'>
-          <View className='relative h-full   sm:h-48 sm:w-full'>
-            <Suspense fallback={null}>
-              <TitleText />
-              <Common color={'lightblue'} />
-            </Suspense>
-          </View>
-        </div>
-        <div className='w-full p-6 sm:w-1/2'>
-          <h2 className='mb-3 text-3xl font-bold leading-none text-gray-800'>Dom and 3D are synchronized</h2>
-          <p className='mb-8 text-gray-600'>
-            3D Divs are renderer through the View component. It uses gl.scissor to cut the viewport into segments. You
-            tie a view to a tracking div which then controls the position and bounds of the viewport. This allows you to
-            have multiple views with a single, performant canvas. These views will follow their tracking elements,
-            scroll along, resize, etc.
+        <div className='flex w-full flex-col items-start  p-12   md:w-3/6 md:text-left'>
+          <h1 className='my-4 text-5xl font-bold leading-tight'>Threejs</h1>
+          <p className='mb-8 text-2xl leading-normal'>
+            Three.js is a popular JavaScript library used for creating 3D graphics and animations in web applications.
           </p>
         </div>
       </div>
