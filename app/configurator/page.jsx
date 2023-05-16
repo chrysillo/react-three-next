@@ -1,5 +1,6 @@
 'use client'
 
+import { CheckBox } from '@/components/canvas/Examples'
 import dynamic from 'next/dynamic'
 import React, { Suspense } from 'react'
 
@@ -24,59 +25,79 @@ const Common = dynamic(() => import('@/components/canvas/View').then((mod) => mo
 
 export default function Page() {
   const [color, setColor] = React.useState('red')
-  const [controlsEnabled, setControlsEnabled] = React.useState('true')
+  const [enabledWheels, setEnabledWheels] = React.useState(true)
+  const [controlsEnabled, setControlsEnabled] = React.useState(true)
   const someFunction = (color) => {
     setColor(color)
   }
   return (
-    <>
-      <div className='m-auto grid h-full max-w-7xl grid-cols-6 grid-rows-6'>
-        <View
-          orbit
-          orbitControls={{
-            enableDamping: false,
-            enablePan: false,
-            minPolarAngle: 1.5,
-            maxPolarAngle: 1.5,
-            enableZoom: false,
-            reverseOrbit: false,
-            zoom: 80,
-            minZoom: 80,
-            minDistance: 15,
-            enabled: controlsEnabled,
-          }}
-          className='col-span-5 row-span-4  h-full w-full bg-lime-300'
-        >
+    <div className='m-auto grid h-full max-w-7xl grid-cols-6 grid-rows-6'>
+      <View
+        orbit
+        orbitControls={{
+          enableDamping: false,
+          enablePan: false,
+          minPolarAngle: 1.5,
+          maxPolarAngle: 1.5,
+          enableZoom: false,
+          reverseOrbit: false,
+          zoom: 80,
+          minZoom: 80,
+          minDistance: 15,
+          enabled: controlsEnabled,
+        }}
+        className='col-span-5 row-span-4 h-full w-full bg-lime-300'
+      >
+        <Suspense fallback={null}>
+          <Lambo wheels={enabledWheels} color={color} setControlsEnabled={setControlsEnabled} />
+          <Common />
+        </Suspense>
+      </View>
+      <div className='col-span-1 row-span-4 flex flex-col gap-5 bg-orange-500 p-3'>
+        <Button color='navy' onClick={someFunction} />
+        <Button color='lime' onClick={someFunction} />
+        <Button color='black' onClick={someFunction} />
+        <Button color='red' onClick={someFunction} />
+        <Button color='gray' onClick={someFunction} />
+      </div>
+      <div className='col-span-5 row-span-1 bg-red-50 p-2 overflow-hidden'>
+        <FancyCheckbox text='Wheels' enabled={enabledWheels} onClick={() => setEnabledWheels(!enabledWheels)} />
+        {/* <View className=' relative  h-full'>
           <Suspense fallback={null}>
-            <Lambo color={color} setControlsEnabled={setControlsEnabled} />
+            <CheckBox color='navy' onClick={someFunction} />
+            <CheckBox color='lime' onClick={someFunction} />
             <Common />
           </Suspense>
-        </View>
-        <div className='col-span-1 row-span-4 flex flex-col gap-5 bg-orange-500 p-2'>
-          <Button color='orange' onClick={someFunction} />
-          <Button color='lime' onClick={someFunction} />
-          <Button color='black' onClick={someFunction} />
-          <Button color='red' onClick={someFunction} />
-          <Button color='gray' onClick={someFunction} />
-        </div>
-        <div className='col-span-5 row-span-1 bg-red-50'>coomo</div>
-        <div className='col-span-1 row-span-1 bg-blue-500'>
-          <View orbit className='relative h-full  '>
-            <Suspense fallback={null}>
-              <Duck scale={2} position={[0, -1.6, 0]} />
-              <Common color={'lightblue'} />
-            </Suspense>
-          </View>
-        </div>
+        </View> */}
       </div>
-    </>
+      <div className='col-span-1 row-span-1 bg-blue-500'>
+        <View orbit className='relative h-full  '>
+          <Suspense fallback={null}>
+            <Duck scale={2} position={[0, -1.6, 0]} />
+            <Common color={'lightblue'} />
+          </Suspense>
+        </View>
+      </div>
+    </div>
   )
 }
 
 const Button = ({ color, onClick }) => (
   <button
     style={{ backgroundColor: color }}
-    className='flex h-1/5 w-full cursor-pointer rounded border-4 border-blue-900'
+    className='flex h-1/5 w-full cursor-pointer rounded'
     onClick={() => onClick(color)}
   />
+)
+
+const FancyCheckbox = ({ enabled, onClick, text }) => (
+  <div className='flex w-fit flex-col p-2 text-center  rounded relative bg-red-500 text-white'>
+    <div>{text}</div>
+    <View className=' relative w-24 h-16 border-4 rounded-full bg-green-400'>
+      <Suspense fallback={null}>
+        <CheckBox enabled={enabled} onClick={onClick} />
+        <Common />
+      </Suspense>
+    </View>
+  </div>
 )

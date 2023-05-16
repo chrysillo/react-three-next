@@ -4,27 +4,10 @@ import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { useMemo, useRef, useState } from 'react'
-import { Line, useCursor, MeshDistortMaterial } from '@react-three/drei'
+import { Line, useCursor, Svg } from '@react-three/drei'
 import { useRouter } from 'next/navigation'
 
-export const Blob = ({ route = '/', ...props }) => {
-  const router = useRouter()
-  const [hovered, hover] = useState(false)
-  useCursor(hovered)
-  return (
-    <mesh
-      onClick={() => router.push(route)}
-      onPointerOver={() => hover(true)}
-      onPointerOut={() => hover(false)}
-      {...props}
-    >
-      <sphereGeometry args={[1, 64, 64]} />
-      <MeshDistortMaterial roughness={0} color={hovered ? 'hotpink' : '#1fb2f5'} />
-    </mesh>
-  )
-}
-
-export const Logo = ({ route = '/blob', ...props }) => {
+export const Logo = ({ route = '/configurator', ...props }) => {
   const mesh = useRef(null)
   const router = useRouter()
 
@@ -54,7 +37,50 @@ export const Logo = ({ route = '/blob', ...props }) => {
     </group>
   )
 }
+export const CheckBox = ({ enabled, onClick }) => {
+  const mesh = useRef(null)
+  const [hovered, setHovered] = useState(false)
+  useCursor(hovered)
+  const active = enabled ? 0.8 : -0.8
 
+  useFrame((state, delta) => {
+    const t = state.clock.getElapsedTime()
+    // mesh.current.scale
+    //  Math.sin(t) * (Math.PI / 8)
+    if (hovered && !enabled) {
+      mesh.current.rotation.x += delta * 3
+      mesh.current.position.y = Math.cos(t * 3) * 0.3
+      return
+    }
+    mesh.current.position.y = 0
+    mesh.current.rotation.y = 0
+    mesh.current.rotation.x = 0
+    mesh.current.position.x = active
+  })
+  return (
+    <group onClick={onClick}>
+      <mesh visible={false} position={[0, 0, 0]} scale={[10, 10, 1]}>
+        <planeGeometry />
+        <meshPhysicalMaterial transparent />
+      </mesh>
+      <group ref={mesh}>
+        <mesh
+          position={[active, 0, 0]}
+          scale={enabled ? 1.1 : 1}
+          onPointerOver={() => setHovered(true)}
+          onPointerOut={() => setHovered(false)}
+        >
+          <sphereGeometry args={[1, 64, 64]} />
+          <meshPhysicalMaterial roughness={1} color={enabled ? 'hotpink' : '#1fb2f5'} />
+        </mesh>
+        <mesh position={[-1, 0, 1]} visible={hovered && !enabled}>
+          <sphereGeometry args={[0.5, 64, 64]} />
+          <meshPhysicalMaterial roughness={1} color={enabled ? 'blue' : 'lime'} />
+        </mesh>
+      </group>
+    </group>
+  )
+}
 export function Duck({ route = '/', ...props }) {
   const { scene } = useGLTF('/duck.glb')
 
@@ -62,8 +88,6 @@ export function Duck({ route = '/', ...props }) {
 
   return <primitive object={scene} {...props} />
 }
-export function Dog(props) {
-  const { scene } = useGLTF('/dog.glb')
-
-  return <primitive object={scene} {...props} />
+export function ThreeLogo(props) {
+  return <Svg src='/img/threejs.svg' />
 }

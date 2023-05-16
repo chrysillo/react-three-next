@@ -4,7 +4,7 @@ import { useGLTF, Stage, Bounds, useBounds, useCursor } from '@react-three/drei'
 import React from 'react'
 
 function Model(props) {
-  const color = props.color
+  const { color, wheels } = props
   const { nodes, materials } = useGLTF('/lambo.glb')
   return (
     <group {...props} position={[2.15, 0, 0]} dispose={null}>
@@ -28,16 +28,52 @@ function Model(props) {
         <mesh castShadow={true} geometry={nodes.Object_13.geometry} material={materials['Material.002']} />
         <mesh castShadow={true} geometry={nodes.Object_14.geometry} material={materials['Material.002']} />
         <mesh castShadow={true} geometry={nodes.Object_15.geometry} material={materials['Material.002']} />
-        <mesh castShadow={true} geometry={nodes.Object_17.geometry} material={materials['Material.003']} />
-        <mesh castShadow={true} geometry={nodes.Object_18.geometry} material={materials['Material.003']} />
+        // front white rim outline
+        <mesh
+          visible={wheels}
+          castShadow={true}
+          geometry={nodes.Object_17.geometry}
+          material={materials['Material.003']}
+        />
+        // back left white rim outline
+        <mesh
+          visible={wheels}
+          castShadow={true}
+          geometry={nodes.Object_18.geometry}
+          material={materials['Material.003']}
+        />
         <mesh castShadow={true} geometry={nodes.Object_19.geometry} material={materials['Material.004']} />
         <mesh castShadow={true} geometry={nodes.Object_20.geometry} material={materials['Material.005']} />
         <mesh castShadow={true} geometry={nodes.Object_21.geometry} material={materials['Material.007']} />
         <mesh castShadow={true} geometry={nodes.Object_22.geometry} material={materials['Material.009']} />
-        <mesh castShadow={true} geometry={nodes.Object_23.geometry} material={materials['Material.011']} />
-        <mesh castShadow={true} geometry={nodes.Object_24.geometry} material={materials['Material.011']} />
-        <mesh castShadow={true} geometry={nodes.Object_25.geometry} material={materials['Material.011']} />
-        <mesh castShadow={true} geometry={nodes.Object_26.geometry} material={materials['Material.011']} />
+        // front right rim
+        <mesh
+          visible={wheels}
+          castShadow={true}
+          geometry={nodes.Object_23.geometry}
+          material={materials['Material.011']}
+        />
+        // front left rim
+        <mesh
+          visible={wheels}
+          castShadow={true}
+          geometry={nodes.Object_24.geometry}
+          material={materials['Material.011']}
+        />
+        // back right rim
+        <mesh
+          visible={wheels}
+          castShadow={true}
+          geometry={nodes.Object_25.geometry}
+          material={materials['Material.011']}
+        />
+        // back left rim
+        <mesh
+          visible={wheels}
+          castShadow={true}
+          geometry={nodes.Object_26.geometry}
+          material={materials['Material.011']}
+        />
         <mesh castShadow={true} geometry={nodes.Object_27.geometry} material={materials['Material.013']} />
         <mesh
           castShadow={true}
@@ -51,10 +87,34 @@ function Model(props) {
         <mesh castShadow={true} geometry={nodes.Object_32.geometry} material={materials['Material.012']} />
         <mesh castShadow={true} geometry={nodes.Object_33.geometry} material={materials['Material.012']} />
         <mesh castShadow={true} geometry={nodes.Object_34.geometry} material={materials['Material.025']} />
-        <mesh castShadow={true} geometry={nodes.Object_35.geometry} material={materials['Material.025']} />
-        <mesh castShadow={true} geometry={nodes.Object_36.geometry} material={materials['Material.025']} />
-        <mesh castShadow={true} geometry={nodes.Object_37.geometry} material={materials['Material.025']} />
-        <mesh castShadow={true} geometry={nodes.Object_38.geometry} material={materials['Material.025']} />
+        //front right tire
+        <mesh
+          visible={wheels}
+          castShadow={true}
+          geometry={nodes.Object_35.geometry}
+          material={materials['Material.025']}
+        />
+        //front left tire
+        <mesh
+          visible={wheels}
+          castShadow={true}
+          geometry={nodes.Object_36.geometry}
+          material={materials['Material.025']}
+        />
+        //back right tire
+        <mesh
+          visible={wheels}
+          castShadow={true}
+          geometry={nodes.Object_37.geometry}
+          material={materials['Material.025']}
+        />
+        // back left tire
+        <mesh
+          visible={wheels}
+          castShadow={true}
+          geometry={nodes.Object_38.geometry}
+          material={materials['Material.025']}
+        />
         <mesh castShadow={true} geometry={nodes.Object_39.geometry} material={materials['Material.025']} />
         <mesh castShadow={true} geometry={nodes.Object_40.geometry} material={materials['Material.017']} />
       </group>
@@ -64,23 +124,30 @@ function Model(props) {
 
 export function Lambo(props) {
   const [hovered, setHovered] = React.useState(false)
+  // show clickable spheres
+  const showSpheres = false
   useCursor(hovered)
   return (
     <>
       <Stage adjustCamera={false}>
         <Bounds clip observe margin={1.5}>
-          <Model color={props.color} />
+          <Model {...props} />
           <SelectToZoom setControls={props.setControlsEnabled}>
             <mesh
-              position={[0, 0, -5]}
-              visible={true}
+              position={[0, -0.2, -5]}
+              visible={showSpheres}
               onPointerOver={() => setHovered(true)}
               onPointerOut={() => setHovered(false)}
             >
               <sphereGeometry args={[0.6, 16, 16]} />
               {/* <meshPhysicalMaterial roughness={0} color={'#1fb2f5'} /> */}
             </mesh>
-            <mesh position={[0, 0, 5]}>
+            <mesh
+              position={[0, 0, 4.5]}
+              visible={showSpheres}
+              onPointerOver={() => setHovered(true)}
+              onPointerOut={() => setHovered(false)}
+            >
               <sphereGeometry args={[1, 64, 64]} />
             </mesh>
           </SelectToZoom>
@@ -101,7 +168,6 @@ function SelectToZoom({ children, ...props }) {
       }}
       onPointerMissed={(e) => {
         props.setControls(true)
-        console.log('pointer missed')
       }}
     >
       {children}
