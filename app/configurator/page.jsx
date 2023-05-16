@@ -30,7 +30,7 @@ export default function Page() {
   const [controlsEnabled, setControlsEnabled] = React.useState(true)
 
   return (
-    <div className='m-auto grid h-full max-w-7xl grid-cols-6 grid-rows-6'>
+    <div className={`m-auto grid h-full max-h-fit max-w-7xl grid-cols-6 grid-rows-6 `}>
       <View
         orbit
         orbitControls={{
@@ -45,7 +45,7 @@ export default function Page() {
           minDistance: 15,
           enabled: controlsEnabled,
         }}
-        className='col-span-5 row-span-4 h-full w-full bg-lime-300'
+        className='col-span-5 row-span-5 h-full w-full boxshadow boxshadow-lg '
       >
         <Suspense fallback={null}>
           <Lambo
@@ -57,14 +57,14 @@ export default function Page() {
           <Common />
         </Suspense>
       </View>
-      <div className='col-span-1 row-span-4 flex flex-col gap-5 bg-orange-500 p-3'>
+      <div className='col-span-1 row-span-5 flex flex-col gap-5   p-3'>
         <Button color='navy' onClick={setColor} />
         <Button color='lime' onClick={setColor} />
         <Button color='black' onClick={setColor} />
         <Button color='red' onClick={setColor} />
         <Button color='gray' onClick={setColor} />
       </div>
-      <div className='col-span-5 row-span-1 bg-red-50 p-2 overflow-hidden flex gap-4 items-center  flex-row'>
+      <div className='col-span-5 row-span-1  p-2 overflow-hidden flex gap-4 items-center  flex-row'>
         <FancyCheckbox text='Wheels' enabled={enabledWheels} onClick={() => setEnabledWheels(!enabledWheels)} />
         <FancyCheckbox text='Spoiler' enabled={enabledSpoiler} onClick={() => setEnabledSpoiler(!enabledSpoiler)} />
       </div>
@@ -91,7 +91,9 @@ const Button = ({ color, onClick }) => (
 const FancyCheckbox = ({ enabled, onClick, text }) => (
   <div className='flex w-fit  p-2 text-center items-center  gap-3  rounded relative '>
     <div>{text}</div>
-    <View className=' relative w-24 h-16 border-4 border-red-600 rounded-full  '>
+    <View
+      className={`relative w-24 h-16 border-4 border-blue-800 rounded-full ${enabled ? 'bg-blue-300' : 'bg-gray-100'}`}
+    >
       <Suspense fallback={null}>
         <CheckBox enabled={enabled} onClick={onClick} />
         <Common />

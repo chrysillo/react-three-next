@@ -55,6 +55,7 @@ export const CheckBox = ({ enabled, onClick }) => {
     mesh.current.rotation.y = 0
     mesh.current.rotation.x = 0
     mesh.current.position.y = 0
+    mesh.current.position.z = 0
     mesh.current.position.x = active
   })
   return (
@@ -72,11 +73,11 @@ export const CheckBox = ({ enabled, onClick }) => {
       <group ref={mesh}>
         <mesh position={[active, 0, 0]} scale={enabled ? 1.1 : 1}>
           <sphereGeometry args={[1, 64, 64]} />
-          <meshPhysicalMaterial roughness={1} color={enabled ? 'hotpink' : '#1fb2f5'} />
+          <meshPhysicalMaterial roughness={1} color={enabled ? 'blue' : 'gray'} />
         </mesh>
         <mesh position={[-1, 0, 1]} visible={hovered && !enabled}>
           <sphereGeometry args={[0.5, 64, 64]} />
-          <meshPhysicalMaterial roughness={1} color={enabled ? 'blue' : 'lime'} />
+          <meshPhysicalMaterial roughness={1} color={'lime'} />
         </mesh>
       </group>
     </group>

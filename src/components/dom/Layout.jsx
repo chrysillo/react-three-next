@@ -17,6 +17,7 @@ const Layout = ({ children }) => {
         overflow: 'auto',
         touchAction: 'auto',
       }}
+      className=' bg-gray-400'
     >
       {children}
       <Scene
