@@ -1,6 +1,7 @@
 'use client'
 
 import dynamic from 'next/dynamic'
+import Loading from '@/loading'
 import { Suspense } from 'react'
 
 const Logo = dynamic(() => import('@/components/canvas/Logo').then((mod) => mod.Logo), { ssr: false })
@@ -9,38 +10,7 @@ const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.
   ssr: false,
   loading: () => (
     <div className='flex h-96 w-full flex-col items-center justify-center'>
-      <svg viewBox='0 0 100 100'>
-        <circle fill='#fff' stroke='none' cx='6' cy='50' r='6'>
-          <animateTransform
-            attributeName='transform'
-            dur='1s'
-            type='translate'
-            values='0 15 ; 0 -15; 0 15'
-            repeatCount='indefinite'
-            begin='0.1'
-          />
-        </circle>
-        <circle fill='#fff' stroke='none' cx='30' cy='50' r='6'>
-          <animateTransform
-            attributeName='transform'
-            dur='1s'
-            type='translate'
-            values='0 10 ; 0 -10; 0 10'
-            repeatCount='indefinite'
-            begin='0.2'
-          />
-        </circle>
-        <circle fill='#fff' stroke='none' cx='54' cy='50' r='6'>
-          <animateTransform
-            attributeName='transform'
-            dur='1s'
-            type='translate'
-            values='0 5 ; 0 -5; 0 5'
-            repeatCount='indefinite'
-            begin='0.3'
-          />
-        </circle>
-      </svg>
+      <Loading />
     </div>
   ),
 })
