@@ -26,10 +26,9 @@ const Common = dynamic(() => import('@/components/canvas/View').then((mod) => mo
 export default function Page() {
   const [color, setColor] = React.useState('red')
   const [enabledWheels, setEnabledWheels] = React.useState(true)
+  const [enabledSpoiler, setEnabledSpoiler] = React.useState(false)
   const [controlsEnabled, setControlsEnabled] = React.useState(true)
-  const someFunction = (color) => {
-    setColor(color)
-  }
+
   return (
     <div className='m-auto grid h-full max-w-7xl grid-cols-6 grid-rows-6'>
       <View
@@ -49,26 +48,25 @@ export default function Page() {
         className='col-span-5 row-span-4 h-full w-full bg-lime-300'
       >
         <Suspense fallback={null}>
-          <Lambo wheels={enabledWheels} color={color} setControlsEnabled={setControlsEnabled} />
+          <Lambo
+            spoiler={enabledSpoiler}
+            wheels={enabledWheels}
+            color={color}
+            setControlsEnabled={setControlsEnabled}
+          />
           <Common />
         </Suspense>
       </View>
       <div className='col-span-1 row-span-4 flex flex-col gap-5 bg-orange-500 p-3'>
-        <Button color='navy' onClick={someFunction} />
-        <Button color='lime' onClick={someFunction} />
-        <Button color='black' onClick={someFunction} />
-        <Button color='red' onClick={someFunction} />
-        <Button color='gray' onClick={someFunction} />
+        <Button color='navy' onClick={setColor} />
+        <Button color='lime' onClick={setColor} />
+        <Button color='black' onClick={setColor} />
+        <Button color='red' onClick={setColor} />
+        <Button color='gray' onClick={setColor} />
       </div>
-      <div className='col-span-5 row-span-1 bg-red-50 p-2 overflow-hidden'>
+      <div className='col-span-5 row-span-1 bg-red-50 p-2 overflow-hidden flex gap-4 items-center  flex-row'>
         <FancyCheckbox text='Wheels' enabled={enabledWheels} onClick={() => setEnabledWheels(!enabledWheels)} />
-        {/* <View className=' relative  h-full'>
-          <Suspense fallback={null}>
-            <CheckBox color='navy' onClick={someFunction} />
-            <CheckBox color='lime' onClick={someFunction} />
-            <Common />
-          </Suspense>
-        </View> */}
+        <FancyCheckbox text='Spoiler' enabled={enabledSpoiler} onClick={() => setEnabledSpoiler(!enabledSpoiler)} />
       </div>
       <div className='col-span-1 row-span-1 bg-blue-500'>
         <View orbit className='relative h-full  '>
@@ -91,9 +89,9 @@ const Button = ({ color, onClick }) => (
 )
 
 const FancyCheckbox = ({ enabled, onClick, text }) => (
-  <div className='flex w-fit flex-col p-2 text-center  rounded relative bg-red-500 text-white'>
+  <div className='flex w-fit  p-2 text-center items-center  gap-3  rounded relative '>
     <div>{text}</div>
-    <View className=' relative w-24 h-16 border-4 rounded-full bg-green-400'>
+    <View className=' relative w-24 h-16 border-4 border-red-600 rounded-full  '>
       <Suspense fallback={null}>
         <CheckBox enabled={enabled} onClick={onClick} />
         <Common />

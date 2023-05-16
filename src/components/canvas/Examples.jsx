@@ -45,31 +45,32 @@ export const CheckBox = ({ enabled, onClick }) => {
 
   useFrame((state, delta) => {
     const t = state.clock.getElapsedTime()
-    // mesh.current.scale
-    //  Math.sin(t) * (Math.PI / 8)
+
     if (hovered && !enabled) {
       mesh.current.rotation.x += delta * 3
+      mesh.current.position.x = active
       mesh.current.position.y = Math.cos(t * 3) * 0.3
       return
     }
-    mesh.current.position.y = 0
     mesh.current.rotation.y = 0
     mesh.current.rotation.x = 0
+    mesh.current.position.y = 0
     mesh.current.position.x = active
   })
   return (
     <group onClick={onClick}>
-      <mesh visible={false} position={[0, 0, 0]} scale={[10, 10, 1]}>
+      <mesh
+        visible={false}
+        position={[0, 0, 0]}
+        scale={[10, 10, 1]}
+        onPointerOver={() => setHovered(true)}
+        onPointerOut={() => setHovered(false)}
+      >
         <planeGeometry />
         <meshPhysicalMaterial transparent />
       </mesh>
       <group ref={mesh}>
-        <mesh
-          position={[active, 0, 0]}
-          scale={enabled ? 1.1 : 1}
-          onPointerOver={() => setHovered(true)}
-          onPointerOut={() => setHovered(false)}
-        >
+        <mesh position={[active, 0, 0]} scale={enabled ? 1.1 : 1}>
           <sphereGeometry args={[1, 64, 64]} />
           <meshPhysicalMaterial roughness={1} color={enabled ? 'hotpink' : '#1fb2f5'} />
         </mesh>

@@ -2,12 +2,27 @@
 
 import { useGLTF, Stage, Bounds, useBounds, useCursor } from '@react-three/drei'
 import React from 'react'
+import * as THREE from 'three'
 
 function Model(props) {
-  const { color, wheels } = props
+  const { color, wheels = true, spoiler = false } = props
   const { nodes, materials } = useGLTF('/lambo.glb')
   return (
     <group {...props} position={[2.15, 0, 0]} dispose={null}>
+      <group position={[-2.15, 1.4, 3]} visible={spoiler}>
+        <mesh rotation={[-1.78, 0, 0]} scale={[4, 1, 1]}>
+          <planeGeometry />
+          <meshPhysicalMaterial roughness={0} color={'black'} side={THREE.DoubleSide} />
+        </mesh>
+        <mesh position={[1.3, -0.5, 0]} rotation={[0, 1.5, 0]} scale={[1, 1, 1]}>
+          <planeGeometry />
+          <meshPhysicalMaterial roughness={0} color={'black'} side={THREE.DoubleSide} />
+        </mesh>
+        <mesh position={[-1.3, -0.5, 0]} rotation={[0, 1.5, 0]} scale={[1, 1, 1]}>
+          <planeGeometry />
+          <meshPhysicalMaterial roughness={0} color={'black'} side={THREE.DoubleSide} />
+        </mesh>
+      </group>
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <lineSegments geometry={nodes.Object_3.geometry} material={materials['Material.004']} />
         <lineSegments geometry={nodes.Object_6.geometry} material={materials['Material.016']} />
@@ -140,7 +155,6 @@ export function Lambo(props) {
               onPointerOut={() => setHovered(false)}
             >
               <sphereGeometry args={[0.6, 16, 16]} />
-              {/* <meshPhysicalMaterial roughness={0} color={'#1fb2f5'} /> */}
             </mesh>
             <mesh
               position={[0, 0, 4.5]}
