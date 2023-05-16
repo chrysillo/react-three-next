@@ -3,8 +3,7 @@
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 
-const Logo = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.Logo), { ssr: false })
-const ThreeLogo = dynamic(() => import('@/components/canvas/Examples').then((mod) => mod.ThreeLogo), { ssr: false })
+const Logo = dynamic(() => import('@/components/canvas/Logo').then((mod) => mod.Logo), { ssr: false })
 const TitleText = dynamic(() => import('@/components/canvas/TitleText').then((mod) => mod.TitleText), { ssr: false })
 const View = dynamic(() => import('@/components/canvas/View').then((mod) => mod.View), {
   ssr: false,
@@ -76,14 +75,6 @@ export default function Page() {
             Three.js is a popular JavaScript library used for creating 3D graphics and animations in web applications.
           </p>
         </div>
-      </div>
-      <div className='relative w-full mb-40'>
-        <View className='relative  h-96  w-full'>
-          <Suspense fallback={null}>
-            <ThreeLogo />
-            <Common />
-          </Suspense>
-        </View>
       </div>
     </>
   )
