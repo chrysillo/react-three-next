@@ -89,10 +89,10 @@ const Button = ({ color, onClick }) => (
 )
 
 const FancyCheckbox = ({ enabled, onClick, text }) => (
-  <div className='flex w-fit  p-2 text-center items-center  gap-3  rounded relative '>
+  <div className='flex w-fit  p-2 text-center items-center text-gray-100 gap-3  rounded relative '>
     <div>{text}</div>
     <View
-      className={`relative w-24 h-16 border-4 border-blue-800 rounded-full ${enabled ? 'bg-blue-300' : 'bg-gray-100'}`}
+      className={`relative w-24 h-16 border-4 border-blue-800 rounded-full ${enabled ? 'bg-blue-200' : 'bg-gray-400'}`}
     >
       <Suspense fallback={null}>
         <CheckBox enabled={enabled} onClick={onClick} />
